@@ -6,8 +6,9 @@ include <../../BOSL2/std.scad>
 magnet_dia = 4;
 magnet_th = 2;
 magnet_row_offset = 3.25;
-magnet_channel_width = 165;
+magnet_channel_w = 165;
 magnet_channel_offset = 20; // check this
+magnet_barrier_th = 1;
 tablet_w = 195;
 tablet_th = 6.5;
 mount_bezel = 10;

@@ -12,29 +12,19 @@ magnet_barrier_th = 1;
 tablet_w = 195;
 tablet_th = 6.5;
 tablet_r = 3.25;
+tablet_inset = (3 * magnet_row_offset);
 mount_bezel = 10;
 mount_back_th = magnet_th + 4;
 mount_w = tablet_w + (2 * mount_bezel);
-mount_h = mount_bezel + (3 * magnet_row_offset);
+mount_h = mount_bezel + tablet_inset;
 mount_th = mount_back_th + tablet_th;
 mount_screw_dia = 4;
 mount_screw_angle = 90;
 
 diff() {
-    cube([mount_w,mount_h,mount_th], anchor=FRONT+TOP)
-   
-    /*
-        let(p = $parent_size.z+0.1, rad = tablet_r*2) {
-            edge_mask(FRONT+RIGHT)
-                rounding_edge_mask(l=p.z, rad);
-            edge_mask(FRONT+LEFT)
-                rounding_edge_mask(l=p.z, rad);
-            edge_mask(BACK+RIGHT)
-                rounding_edge_mask(l=p.z, rad);
-            edge_mask(BACK+LEFT)
-                rounding_edge_mask(l=p.z, rad);
-        }
-        */
-        attach(TOP) tag("remove") fwd(mount_bezel) cube([tablet_w,mount_h,tablet_th], anchor = TOP);
+    cube([mount_w,mount_h,mount_th], anchor=TOP) {
+        attach(TOP) tag("remove") fwd(mount_bezel-(tablet_inset/2)-0.125) cube([tablet_w,tablet_inset,tablet_th], anchor = TOP);
+        attach(BOTTOM) tag("remove") fwd(mount_bezel-(magnet_dia/2)-magnet_row_offset) cube([tablet_w,magnet_dia,mount_back_th-magnet_th], anchor = TOP);
+    }
 }
 

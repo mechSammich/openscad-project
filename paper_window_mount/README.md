@@ -14,3 +14,9 @@ The paper-window mount shall:
     a. board mount offsets from bezel datum
     b. board mount hole spacing
     c. wall thickness
+
+## additional info
+# button board hole spacing
+(approx.)
+width = 17.75 mm
+height = 25 mm

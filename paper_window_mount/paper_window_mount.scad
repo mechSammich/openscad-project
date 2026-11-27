@@ -13,9 +13,6 @@ pi_pcb_t     = 1.4;   // PCB thickness
 hat_header_h = 8.5;   // header stack height between Pi and HAT
 hat_pcb_t    = 1.6;   // HAT PCB thickness
 display_t    = 1.2;   // display module thickness above HAT
-disp_win_x   = 50;    // visible window (X)
-disp_win_y   = 24;    // visible window (Y)
-disp_win_r   = 1;     // window corner radius
 
 /* [Button board] */
 btn_hole_w   = 17.75; // hole spacing (X)
@@ -24,7 +21,6 @@ btn_pcb_t    = 1.6;   // PCB thickness
 btn_margin   = 3.5;   // outline beyond hole centres
 btn_gap      = 4;     // gap between Pi right edge and board outline
 btn_top_z    = -4;    // button PCB top relative to front face
-joy_hole_d   = 10;    // joystick cap clearance in bezel
 
 /* [Mount hardware] */
 boss_d       = 6;     // standoff outer diameter
@@ -45,6 +41,7 @@ usb_w        = 22;    // USB/HDMI opening width
 wire_d       = 14;    // wiring hole in floor
 wire_x       = -10;   // wiring hole centre (X)
 wire_y       = 0;     // wiring hole centre (Y)
+side_open_w  = 25;    // +Y wall opening width (X) for button board header and wires
 
 /* [View] */
 show_parts   = false; // show ghosted boards in preview
@@ -116,6 +113,10 @@ module tray() {
         // USB / HDMI openings, -Y wall
         translate([usb_x - usb_w / 2, out_y0 - 1, pi_bot_z - 2])
             cube([usb_w, wall_t + 2, pi_top_z - pi_bot_z + 4]);
+
+        // button board header and wire opening, +Y wall
+        translate([btn_x - side_open_w / 2, in_y1 - 0.5, floor_top_z])
+            cube([side_open_w, wall_t + 1, 1 - floor_top_z]);
     }
 }
 
@@ -123,12 +124,7 @@ module bezel() {
     difference() {
         rrect(out_x0 - bezel_rim, out_x1 + bezel_rim,
               out_y0 - bezel_rim, out_y1 + bezel_rim, 0, bezel_t, 4);
-        // display visible area
-        translate([0, 0, -1]) linear_extrude(bezel_t + 2)
-            offset(r = disp_win_r)
-                square([disp_win_x - 2 * disp_win_r, disp_win_y - 2 * disp_win_r], center = true);
-        // joystick cap, centred on screen midline
-        translate([btn_x, 0, -1]) cylinder(d = joy_hole_d, h = bezel_t + 2);
+        rrect(in_x0, in_x1, in_y0, in_y1, -1, bezel_t + 1, 1);
     }
 }
 
